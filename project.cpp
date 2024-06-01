@@ -8,6 +8,13 @@ class Student{
 
 };
 
+class Faculty{
+    public:
+
+    private:
+
+};
+
 class Course{
 	public:
 	
