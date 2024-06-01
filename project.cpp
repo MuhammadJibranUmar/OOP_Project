@@ -1,11 +1,18 @@
 #include <iostream>
 using namespace std;
 
-class Int{
+class Student{
     public:
 
     private:
 
+};
+
+class Course{
+	public:
+	
+	private:
+	
 };
 
 int main(){
