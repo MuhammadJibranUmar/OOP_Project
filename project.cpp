@@ -91,11 +91,7 @@ public:
         getline(cin, lastName);
         cout << "Enter DOB (mm/dd/yyyy): ";
         int m, d, y;
-        cin >> m;
-        cout << "/";
-        cin >> d; 
-        cout << "/";
-        cin >> y;
+        cin >> m >> d >> y;
         dob.setDOB(m, d, y);
         cin.ignore();
         cout << "Enter address: ";
@@ -154,6 +150,6 @@ int main()
     p1.setPerson();
     p1.printPerson();
     p1.calculateAge();
-    
+
     return 0;
 }
