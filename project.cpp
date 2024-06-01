@@ -129,7 +129,10 @@ protected:
 class Student : public Person
 {
 public:
+
 private:
+    int studentID;
+    int registrationNo;
 };
 
 class Faculty : public Person
