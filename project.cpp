@@ -3,6 +3,7 @@
 #include <ctime>
 using namespace std;
 
+//date class
 class Date
 {
 public:
@@ -62,6 +63,7 @@ private:
     int year;
 };
 
+//person class
 class Person
 {
 public:
