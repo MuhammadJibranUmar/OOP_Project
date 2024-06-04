@@ -3,9 +3,18 @@
 #include <ctime>
 using namespace std;
 
-
+int MAX = 100;
 //comment
 
+class University{
+    public:
+
+    private:
+        string universityName;
+        int universityID;
+        int totalDepartments;
+        Department departments[MAX];
+}
 class Date
 {
 public:
@@ -133,7 +142,13 @@ protected:
 class Student : public Person
 {
 public:
-
+Student(){
+    studentID=0;
+    registrationNo=0;
+}
+void setdata(){
+    Person::setPerson();
+    }
 private:
     int studentID;
     int registrationNo;
@@ -149,12 +164,55 @@ int facultyID;
 class Course
 {
 public:
+    Course()
+    {
+        courseID = 0;
+        courseTitle = "";
+        creditHours = 0;
+        totalMarks = 100;
+        grade = "";
+    }
+
+    void setData(){
+        cout << "Enter Course Title: ";
+        getline(cin, courseTitle);
+        cout << "Enter Credit Hours: ";
+        cin >> creditHours;
+        cin.ignore();
+    }
+    
+    void getData(){
+        cout << "Course Title: " << courseTitle << endl;
+        cout << "Course ID: " << courseID << endl;
+        cout << "Credit Hours: " << creditHours << endl;
+        cout << "Total Marks: " << totalMarks << endl;
+        cout << "Grade: " << grade << endl;
+    }
 private:
+    int courseID;
+    string courseTitle;
+    int crediHours;
+    int totalMarks;
+    string grade;
+    Result result;
 };
 
-class LMS{
+class Department{
     public:
-        LMS(){
+
+    private:
+        string departmentName;
+        int departmentID;
+        int totalFaculty;
+        Faculty faculty[MAX];
+        int totalStudents;
+        Student students[MAX];
+        int totalCourses;
+        Course courses[MAX];
+};
+class Result{
+    public:
+        Result(){
 
         }
     private:
@@ -166,12 +224,14 @@ class LMS{
         float finals;
         double gpa;
 }
+
+void register(){
+
+}
+
 int main()
 {
-    Person p1;
-    p1.setPerson();
-    p1.printPerson();
-    p1.calculateAge();
+    University Alpha;
 
     return 0;
 }
