@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <ctime>
+#include <fstream>
 using namespace std;
 
 const int MAX = 100;
@@ -23,6 +24,38 @@ public:
     {
         departments[totalDepartments].setData();
         totalDepartments++;
+    }
+
+    void displayDepartments()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].getData();
+        }
+    }
+
+    void displayStudents()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].displayStudents();
+        }
+    }
+
+    void displayFaculty()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].displayFaculty();
+        }
+    }
+
+    void displayCourses()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].displayCourses();
+        }
     }
 
 private:
@@ -158,6 +191,16 @@ public:
         Person::setPerson();
         totalStudents++;
     }
+
+    void printPerson()
+    {
+        cout << "Student ID: " << studentID << endl;
+        Person::printPerson();
+        cout << "Registration No: " << registrationNo << endl;
+        cout << "GPA: " << gpa << endl;
+    }
+
+
 
 private:
     int studentID;
@@ -314,12 +357,46 @@ public:
         totalCourses = 0;
     }
 
-    void setData()
+    void setDepartment()
     {
         cout << "Enter Department Name: ";
         getline(cin, departmentName);
         departmentID = totalDepartments + 1;
         totalDepartments++;
+    }
+
+    void setData(){
+        while (true)
+        {
+            cout << "Choose Functionality";
+            cout << "[1]. Add Faculty" << endl;
+            cout << "[2]. Add courses" << endl;
+            cout << "[3]. Add Students" << endl;
+            cout << "[4]. Exit" << endl;
+            cout << "Enter Choice: ";
+            int choice;
+            cin >> choice;
+
+            switch (choice)
+            {
+            case 1:
+                addFaculty();
+                break;
+            case 2:
+                addCourse();
+                break;
+            case 3:
+                addStudent();
+                break;
+            case 4:
+                break;
+            default:
+                break;
+            }
+
+            
+        }
+        
     }
 
     void getData()
@@ -525,9 +602,118 @@ int Faculty::totalFaculty = 0;
 int Course::totalCourses = 0;
 int Department::totalDepartments = 0;
 
+bool login(){
+    string username, password;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << "Enter password: ";
+    cin >> password;
+    ifstream file("login.txt");
+    string u, p;
+    bool found = false;
+    while (file >> u >> p)
+    {
+        if (u == username && p == password)
+        {
+            found = true;
+            break;
+        }
+    }
+    if (found)
+    {
+        cout << "Login successful" << endl;
+    }
+    else
+    {
+        cout << "Login failed" << endl;
+    }
+    return found;
+}
+
+void registerUser(){
+    string username, password;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << "Enter password: ";
+    cin >> password;
+    ofstream file("login.txt", ios::app);
+    file << username << " " << password << endl;
+    cout << "User registered successfully" << endl;
+}
+
 int main()
 {
+    cout << "Welcome to University Information System" << endl;
+    while(true){
+        cout << "1. Login" << endl;
+        cout << "2. Register" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        int choice;
+        bool flag;
+        cin >> choice;
+        cin.ignore();
+        if(choice == 1){
+            flag = login();
+        }
+        else if(choice == 2){
+            registerUser();
+        }
+        else if(choice == 3){
+            break;
+        }
+        else{
+            cout << "Invalid choice" << endl;
+        }
+        if(flag){
+            break;
+        }
+    }
+
     University Alpha;
+
+    while (true)
+    {
+        cout << "1. Add Department" << endl;
+        cout << "2. Display Departments" << endl;
+        cout << "3. Display Students" << endl;
+        cout << "4. Display Faculty" << endl;
+        cout << "5. Display Courses" << endl;
+        cout << "6. Exit" << endl;
+        cout << "Enter your choice: ";
+        int choice;
+        cin >> choice;
+        cin.ignore();
+        if (choice == 1)
+        {
+            Alpha.addDepartment();
+        }
+        else if (choice == 2)
+        {
+            Alpha.displayDepartments();
+        }
+        else if (choice == 3)
+        {
+            Alpha.displayStudents();
+        }
+        else if (choice == 4)
+        {
+            Alpha.displayFaculty();
+        }
+        else if (choice == 5)
+        {
+            Alpha.displayCourses();
+        }
+        else if (choice == 6)
+        {
+            break;
+        }
+        else
+        {
+            cout << "Invalid choice" << endl;
+        }
+    }
+
 
     return 0;
 }
