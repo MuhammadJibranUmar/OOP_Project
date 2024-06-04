@@ -143,6 +143,7 @@ class Faculty : public Person
 {
 public:
 private:
+int facultyID;
 };
 
 class Course
@@ -151,6 +152,20 @@ public:
 private:
 };
 
+class LMS{
+    public:
+        LMS(){
+
+        }
+    private:
+        float mids;
+        float sessionals;
+        float quiz;
+        float presentation;
+        float assignment;
+        float finals;
+        double gpa;
+}
 int main()
 {
     Person p1;
