@@ -8,9 +8,23 @@ const int MAX = 100;
 class Department;
 class Course;
 class Result;
+
 class University
 {
 public:
+    University()
+    {
+        universityName = "Alpha";
+        universityID = 110;
+        totalDepartments = 0;
+    }
+
+    void addDepartment()
+    {
+        departments[totalDepartments].setData();
+        totalDepartments++;
+    }
+
 private:
     string universityName;
     int universityID;
@@ -155,6 +169,24 @@ private:
 class Faculty : public Person
 {
 public:
+    Faculty()
+    {
+        facultyID = 0;
+    }
+
+    void setData()
+    {
+        Person::setPerson();
+        facultyID = totalFaculty + 1;
+        totalFaculty++;
+    }
+
+    void printPerson()
+    {
+        cout << "Faculty ID: " << facultyID << endl;
+        Person::printPerson();
+    }
+
 private:
     int facultyID;
     static int totalFaculty;
@@ -168,7 +200,6 @@ public:
         courseTitle = "";
         creditHours = 0;
         totalMarks = 100;
-        grade = "";
     }
 
     void setData()
@@ -186,8 +217,82 @@ public:
         cout << "Course ID: " << courseID << endl;
         cout << "Credit Hours: " << creditHours << endl;
         cout << "Total Marks: " << totalMarks << endl;
-        cout << "Grade: " << grade << endl;
     }
+
+    void setMarks()
+    {
+        while (true)
+        {
+            cout << "Which marks do you want to enter?" << endl;
+            cout << "1. Mids" << endl;
+            cout << "2. Quiz" << endl;
+            cout << "3. Presentation" << endl;
+            cout << "4. Assignment" << endl;
+            cout << "5. Finals" << endl;
+            cout << "Enter your choice: ";
+            int choice;
+            cin >> choice;
+            cin.ignore();
+            if (choice < 1 || choice > 5)
+            {
+                cout << "Invalid choice" << endl;
+                continue;
+            }
+            switch (choice)
+            {
+            case 1:
+                cout << "Enter mids marks: ";
+                float m;
+                cin >> m;
+                result.setMids(m);
+                break;
+            case 2:
+                cout << "Enter quiz marks: ";
+                float q;
+                cin >> q;
+                result.setQuiz(q);
+                break;
+            case 3:
+                cout << "Enter presentation marks: ";
+                float p;
+                cin >> p;
+                result.setPresentation(p);
+                break;
+            case 4:
+                cout << "Enter assignment marks: ";
+                float a;
+                cin >> a;
+                result.setAssignment(a);
+                break;
+            case 5:
+                cout << "Enter finals marks: ";
+                float f;
+                cin >> f;
+                result.setFinals(f);
+                break;
+            default:
+                cout << "Invalid choice" << endl;
+                break;
+            }
+            cout << "Do you want to enter more marks? (y/n): ";
+            char ch;
+            cin >> ch;
+            cin.ignore();
+            if (ch == 'n' || ch == 'N')
+            {
+                break;
+            }
+        }
+    }
+
+    void displayResult()
+    {
+        result.calculateTotalMarks();
+        result.calculateGrade();
+        cout << "Total Marks: " << result.getTotalMarks() << endl;
+        cout << "Grade: " << result.getGrade() << endl;
+    }
+
 
 private:
     int courseID;
@@ -195,13 +300,79 @@ private:
     string courseTitle;
     int creditHours;
     int totalMarks;
-    string grade;
     Result result;
 };
 
 class Department
 {
 public:
+    Department()
+    {
+        departmentName = "";
+        totalFaculty = 0;
+        totalStudents = 0;
+        totalCourses = 0;
+    }
+
+    void setData()
+    {
+        cout << "Enter Department Name: ";
+        getline(cin, departmentName);
+        departmentID = totalDepartments + 1;
+        totalDepartments++;
+    }
+
+    void getData()
+    {
+        cout << "Department Name: " << departmentName << endl;
+        cout << "Department ID: " << departmentID << endl;
+        cout << "Total Faculty: " << totalFaculty << endl;
+        cout << "Total Students: " << totalStudents << endl;
+        cout << "Total Courses: " << totalCourses << endl;
+    }
+
+    void addFaculty()
+    {
+        faculty[totalFaculty].setData();
+        totalFaculty++;
+    }
+
+    void addStudent()
+    {
+        students[totalStudents].setData();
+        totalStudents++;
+    }
+
+    void addCourse()
+    {
+        courses[totalCourses].setData();
+        totalCourses++;
+    }
+
+    void displayStudents()
+    {
+        for (int i = 0; i < totalStudents; i++)
+        {
+            students[i].printPerson();
+        }
+    }
+
+    void displayFaculty()
+    {
+        for (int i = 0; i < totalFaculty; i++)
+        {
+            faculty[i].printPerson();
+        }
+    }
+
+    void displayCourses()
+    {
+        for (int i = 0; i < totalCourses; i++)
+        {
+            courses[i].getData();
+        }
+    }
+
 private:
     string departmentName;
     static int totalDepartments;
@@ -218,6 +389,124 @@ class Result
 public:
     Result()
     {
+        mids = 0;
+        sessional = 0;
+        quiz = 0;
+        presentation = 0;
+        assignment = 0;
+        finals = 0;
+        totalMarks = 0;
+        grade = "";
+    }
+
+    void setMids(float m)
+    {
+        if (m > 25 || m < 0)
+        {
+            cout << "Invalid marks for mids" << endl;
+            return;
+        }
+        mids = m;
+    }
+
+    void setSessional()
+    {
+        sessional = quiz + presentation + assignment;
+    }
+
+    void setQuiz(float q)
+    {
+        if (q > 5 || q < 0)
+        {
+            cout << "Invalid marks for quiz" << endl;
+            return;
+        }
+        quiz = q;
+    }
+
+    void setPresentation(float p)
+    {
+        if (p > 10 || p < 0)
+        {
+            cout << "Invalid marks for presentation" << endl;
+            return;
+        }
+        presentation = p;
+    }
+
+    void setAssignment(float a)
+    {
+        if (a > 10 || a < 0)
+        {
+            cout << "Invalid marks for assignment" << endl;
+            return;
+        }
+        assignment = a;
+    }
+
+    void setFinals(float f)
+    {
+        if (f > 50 || f < 0)
+        {
+            cout << "Invalid marks for finals" << endl;
+            return;
+        }
+        finals = f;
+    }
+
+    void calculateTotalMarks()
+    {
+        totalMarks = mids + sessional + finals;
+    }
+
+    void calculateGrade()
+    {
+        if (totalMarks >= 84.5 && totalMarks <= 100)
+        {
+            grade = "A+";
+        }
+        else if (totalMarks >= 79.5 && totalMarks < 84.5)
+        {
+            grade = "A";
+        }
+        else if (totalMarks >= 75.5 && totalMarks < 79.5)
+        {
+            grade = "B+";
+        }
+        else if (totalMarks >= 69.5 && totalMarks < 75.5)
+        {
+            grade = "B";
+        }
+        else if (totalMarks >= 64.5 && totalMarks < 69.5)
+        {
+            grade = "B-";
+        }
+        else if (totalMarks >= 59.5 && totalMarks < 64.5)
+        {
+            grade = "C+";
+        }
+        else if (totalMarks >= 54.5 && totalMarks < 59.5)
+        {
+            grade = "C";
+        }
+        else if (totalMarks >= 49.5 && totalMarks < 54.5)
+        {
+            grade = "D";
+        }
+        else
+        {
+            grade = "F";
+        }
+    }
+
+    string getGrade()
+    {
+        return grade;
+    }
+
+    float getTotalMarks()
+    {
+        return totalMarks;
     }
 
 private:
@@ -227,6 +516,8 @@ private:
     float presentation;
     float assignment;
     float finals;
+    float totalMarks;
+    string grade;
 };
 
 int Student::totalStudents = 0;
