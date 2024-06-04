@@ -87,16 +87,6 @@ public:
         email = "";
     }
 
-    Person(string fn, string ln, Date d, string a, string p, string e)
-    {
-        firstName = fn;
-        lastName = ln;
-        dob = d;
-        address = a;
-        phone = p;
-        email = e;
-    }
-
     void setPerson(){
         cout << "Enter first name: ";
         getline(cin, firstName);
@@ -139,19 +129,21 @@ protected:
     string email;
 };
 
-class Student : public Person
+class Student : public Person, public Course
 {
 public:
 Student(){
-    studentID=0;
-    registrationNo=0;
+    gpa = 0.0;
 }
 void setdata(){
     Person::setPerson();
+    studentID++;
+    registrationNo++;
     }
 private:
-    int studentID;
+    static int studentID;
     int registrationNo;
+    double gpa;
 };
 
 class Faculty : public Person
@@ -166,7 +158,6 @@ class Course
 public:
     Course()
     {
-        courseID = 0;
         courseTitle = "";
         creditHours = 0;
         totalMarks = 100;
@@ -222,8 +213,12 @@ class Result{
         float presentation;
         float assignment;
         float finals;
-        double gpa;
 }
+
+static int studentID = 0;
+static int facultyID = 0;
+static int courseID = 0;
+static int departmentID = 0;
 
 void register(){
 
