@@ -127,11 +127,12 @@ public:
     Student()
     {
         gpa = 0.0;
+        registrationNo = 0;
     }
     void setData()
     {
         Person::setPerson();
-        totalStudents++;
+        registrationNo = ++totalStudents;
     }
 
     void printPerson()
@@ -142,13 +143,14 @@ public:
         cout << "GPA: " << gpa << endl;
     }
 
-
+    
 
 private:
     int studentID;
     static int totalStudents;
     int registrationNo;
     double gpa;
+    Course* courses[6];
 };
 
 class Faculty : public Person
@@ -157,13 +159,13 @@ public:
     Faculty()
     {
         facultyID = 0;
+        registrationNo = 0;
     }
 
     void setData()
     {
         Person::setPerson();
-        facultyID = totalFaculty + 1;
-        totalFaculty++;
+        registrationNo = ++totalFaculty;
     }
 
     void printPerson()
@@ -174,6 +176,7 @@ public:
 
 private:
     int facultyID;
+    int registrationNo;
     static int totalFaculty;
 };
 class Result
@@ -320,6 +323,8 @@ public:
         courseTitle = "";
         creditHours = 0;
         totalMarks = 100;
+        courseID = totalCourses + 1;
+        registered = false;
     }
 
     void setData()
@@ -417,6 +422,7 @@ public:
 private:
     int courseID;
     static int totalCourses;
+    bool registered;
     string courseTitle;
     int creditHours;
     int totalMarks;
