@@ -99,6 +99,7 @@ public:
 
     void printPerson()
     {
+        cout << "------------------------------------" << endl; 
         cout << "Name: " << firstName << " " << lastName << endl;
         cout << "DOB: ";
         dob.printDOB();
@@ -150,7 +151,6 @@ private:
     static int totalStudents;
     int registrationNo;
     double gpa;
-    Course* courses[6];
 };
 
 class Faculty : public Person
