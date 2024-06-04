@@ -6,64 +6,6 @@ using namespace std;
 
 const int MAX = 100;
 
-class Department;
-class Course;
-class Result;
-
-class University
-{
-public:
-    University()
-    {
-        universityName = "Alpha";
-        universityID = 110;
-        totalDepartments = 0;
-    }
-
-    void addDepartment()
-    {
-        departments[totalDepartments].setData();
-        totalDepartments++;
-    }
-
-    void displayDepartments()
-    {
-        for (int i = 0; i < totalDepartments; i++)
-        {
-            departments[i].getData();
-        }
-    }
-
-    void displayStudents()
-    {
-        for (int i = 0; i < totalDepartments; i++)
-        {
-            departments[i].displayStudents();
-        }
-    }
-
-    void displayFaculty()
-    {
-        for (int i = 0; i < totalDepartments; i++)
-        {
-            departments[i].displayFaculty();
-        }
-    }
-
-    void displayCourses()
-    {
-        for (int i = 0; i < totalDepartments; i++)
-        {
-            departments[i].displayCourses();
-        }
-    }
-
-private:
-    string universityName;
-    int universityID;
-    int totalDepartments;
-    Department departments[MAX];
-};
 class Date
 {
 public:
@@ -234,233 +176,6 @@ private:
     int facultyID;
     static int totalFaculty;
 };
-
-class Course
-{
-public:
-    Course()
-    {
-        courseTitle = "";
-        creditHours = 0;
-        totalMarks = 100;
-    }
-
-    void setData()
-    {
-        cout << "Enter Course Title: ";
-        getline(cin, courseTitle);
-        cout << "Enter Credit Hours: ";
-        cin >> creditHours;
-        cin.ignore();
-    }
-
-    void getData()
-    {
-        cout << "Course Title: " << courseTitle << endl;
-        cout << "Course ID: " << courseID << endl;
-        cout << "Credit Hours: " << creditHours << endl;
-        cout << "Total Marks: " << totalMarks << endl;
-    }
-
-    void setMarks()
-    {
-        while (true)
-        {
-            cout << "Which marks do you want to enter?" << endl;
-            cout << "1. Mids" << endl;
-            cout << "2. Quiz" << endl;
-            cout << "3. Presentation" << endl;
-            cout << "4. Assignment" << endl;
-            cout << "5. Finals" << endl;
-            cout << "Enter your choice: ";
-            int choice;
-            cin >> choice;
-            cin.ignore();
-            if (choice < 1 || choice > 5)
-            {
-                cout << "Invalid choice" << endl;
-                continue;
-            }
-            switch (choice)
-            {
-            case 1:
-                cout << "Enter mids marks: ";
-                float m;
-                cin >> m;
-                result.setMids(m);
-                break;
-            case 2:
-                cout << "Enter quiz marks: ";
-                float q;
-                cin >> q;
-                result.setQuiz(q);
-                break;
-            case 3:
-                cout << "Enter presentation marks: ";
-                float p;
-                cin >> p;
-                result.setPresentation(p);
-                break;
-            case 4:
-                cout << "Enter assignment marks: ";
-                float a;
-                cin >> a;
-                result.setAssignment(a);
-                break;
-            case 5:
-                cout << "Enter finals marks: ";
-                float f;
-                cin >> f;
-                result.setFinals(f);
-                break;
-            default:
-                cout << "Invalid choice" << endl;
-                break;
-            }
-            cout << "Do you want to enter more marks? (y/n): ";
-            char ch;
-            cin >> ch;
-            cin.ignore();
-            if (ch == 'n' || ch == 'N')
-            {
-                break;
-            }
-        }
-    }
-
-    void displayResult()
-    {
-        result.calculateTotalMarks();
-        result.calculateGrade();
-        cout << "Total Marks: " << result.getTotalMarks() << endl;
-        cout << "Grade: " << result.getGrade() << endl;
-    }
-
-
-private:
-    int courseID;
-    static int totalCourses;
-    string courseTitle;
-    int creditHours;
-    int totalMarks;
-    Result result;
-};
-
-class Department
-{
-public:
-    Department()
-    {
-        departmentName = "";
-        totalFaculty = 0;
-        totalStudents = 0;
-        totalCourses = 0;
-    }
-
-    void setDepartment()
-    {
-        cout << "Enter Department Name: ";
-        getline(cin, departmentName);
-        departmentID = totalDepartments + 1;
-        totalDepartments++;
-    }
-
-    void setData(){
-        while (true)
-        {
-            cout << "Choose Functionality";
-            cout << "[1]. Add Faculty" << endl;
-            cout << "[2]. Add courses" << endl;
-            cout << "[3]. Add Students" << endl;
-            cout << "[4]. Exit" << endl;
-            cout << "Enter Choice: ";
-            int choice;
-            cin >> choice;
-
-            switch (choice)
-            {
-            case 1:
-                addFaculty();
-                break;
-            case 2:
-                addCourse();
-                break;
-            case 3:
-                addStudent();
-                break;
-            case 4:
-                break;
-            default:
-                break;
-            }
-
-            
-        }
-        
-    }
-
-    void getData()
-    {
-        cout << "Department Name: " << departmentName << endl;
-        cout << "Department ID: " << departmentID << endl;
-        cout << "Total Faculty: " << totalFaculty << endl;
-        cout << "Total Students: " << totalStudents << endl;
-        cout << "Total Courses: " << totalCourses << endl;
-    }
-
-    void addFaculty()
-    {
-        faculty[totalFaculty].setData();
-        totalFaculty++;
-    }
-
-    void addStudent()
-    {
-        students[totalStudents].setData();
-        totalStudents++;
-    }
-
-    void addCourse()
-    {
-        courses[totalCourses].setData();
-        totalCourses++;
-    }
-
-    void displayStudents()
-    {
-        for (int i = 0; i < totalStudents; i++)
-        {
-            students[i].printPerson();
-        }
-    }
-
-    void displayFaculty()
-    {
-        for (int i = 0; i < totalFaculty; i++)
-        {
-            faculty[i].printPerson();
-        }
-    }
-
-    void displayCourses()
-    {
-        for (int i = 0; i < totalCourses; i++)
-        {
-            courses[i].getData();
-        }
-    }
-
-private:
-    string departmentName;
-    static int totalDepartments;
-    int departmentID;
-    int totalFaculty;
-    Faculty faculty[MAX];
-    int totalStudents;
-    Student students[MAX];
-    int totalCourses;
-    Course courses[MAX];
-};
 class Result
 {
 public:
@@ -597,6 +312,306 @@ private:
     string grade;
 };
 
+class Course
+{
+public:
+    Course()
+    {
+        courseTitle = "";
+        creditHours = 0;
+        totalMarks = 100;
+    }
+
+    void setData()
+    {
+        cout << "Enter Course Title: ";
+        getline(cin, courseTitle);
+        cout << "Enter Credit Hours: ";
+        cin >> creditHours;
+        cin.ignore();
+    }
+
+    void getData()
+    {
+        cout << "Course Title: " << courseTitle << endl;
+        cout << "Course ID: " << courseID << endl;
+        cout << "Credit Hours: " << creditHours << endl;
+        cout << "Total Marks: " << totalMarks << endl;
+    }
+
+    void setMarks()
+    {
+        while (true)
+        {
+            cout << "Which marks do you want to enter?" << endl;
+            cout << "1. Mids" << endl;
+            cout << "2. Quiz" << endl;
+            cout << "3. Presentation" << endl;
+            cout << "4. Assignment" << endl;
+            cout << "5. Finals" << endl;
+            cout << "Enter your choice: ";
+            int choice;
+            cin >> choice;
+            cin.ignore();
+            if (choice < 1 || choice > 5)
+            {
+                cout << "Invalid choice" << endl;
+                continue;
+            }
+            switch (choice)
+            {
+            case 1:
+                cout << "Enter mids marks: ";
+                float m;
+                cin >> m;
+                result.setMids(m);
+                break;
+            case 2:
+                cout << "Enter quiz marks: ";
+                float q;
+                cin >> q;
+                result.setQuiz(q);
+                break;
+            case 3:
+                cout << "Enter presentation marks: ";
+                float p;
+                cin >> p;
+                result.setPresentation(p);
+                break;
+            case 4:
+                cout << "Enter assignment marks: ";
+                float a;
+                cin >> a;
+                result.setAssignment(a);
+                break;
+            case 5:
+                cout << "Enter finals marks: ";
+                float f;
+                cin >> f;
+                result.setFinals(f);
+                break;
+            default:
+                cout << "Invalid choice" << endl;
+                break;
+            }
+            cout << "Do you want to enter more marks? (y/n): ";
+            char ch;
+            cin >> ch;
+            cin.ignore();
+            if (ch == 'n' || ch == 'N')
+            {
+                break;
+            }
+        }
+    }
+
+    void displayResult()
+    {
+        result.calculateTotalMarks();
+        result.calculateGrade();
+        cout << "Total Marks: " << result.getTotalMarks() << endl;
+        cout << "Grade: " << result.getGrade() << endl;
+    }
+
+
+private:
+    int courseID;
+    static int totalCourses;
+    string courseTitle;
+    int creditHours;
+    int totalMarks;
+    Result result;
+};
+
+class Department
+{
+public:
+    Department()
+    {
+        departmentName = "";
+        totalFaculty = 0;
+        totalStudents = 0;
+        totalCourses = 0;
+    }
+
+    void setDepartment()
+    {
+        cout << "Enter Department Name: ";
+        getline(cin, departmentName);
+        departmentID = totalDepartments + 1;
+        totalDepartments++;
+    }
+
+    void setData(){
+        cout << "Department ID: " << departmentID << endl;
+        cout << "Department Name: " << departmentName << endl;
+
+        while(true){
+            cout << "1. Add Faculty" << endl;
+            cout << "2. Add Student" << endl;
+            cout << "3. Add Course" << endl;
+            cout << "4. Exit" << endl;
+            cout << "Enter your choice: ";
+            int choice;
+            cin >> choice;
+            cin.ignore();
+            if(choice == 1){
+                addFaculty();
+            }
+            else if(choice == 2){
+                addStudent();
+            }
+            else if(choice == 3){
+                addCourse();
+            }
+            else if(choice == 4){
+                break;
+            }
+            else{
+                cout << "Invalid choice" << endl;
+            }
+        }
+    }
+
+    int getDepartmentID()
+    {
+        return departmentID;
+    }
+
+    void getData()
+    {
+        cout << "Department Name: " << departmentName << endl;
+        cout << "Department ID: " << departmentID << endl;
+        cout << "Total Faculty: " << totalFaculty << endl;
+        cout << "Total Students: " << totalStudents << endl;
+        cout << "Total Courses: " << totalCourses << endl;
+    }
+
+    void addFaculty()
+    {
+        faculty[totalFaculty].setData();
+        totalFaculty++;
+    }
+
+    void addStudent()
+    {
+        students[totalStudents].setData();
+        totalStudents++;
+    }
+
+    void addCourse()
+    {
+        courses[totalCourses].setData();
+        totalCourses++;
+    }
+
+    void displayStudents()
+    {
+        for (int i = 0; i < totalStudents; i++)
+        {
+            students[i].printPerson();
+        }
+    }
+
+    void displayFaculty()
+    {
+        for (int i = 0; i < totalFaculty; i++)
+        {
+            faculty[i].printPerson();
+        }
+    }
+
+    void displayCourses()
+    {
+        for (int i = 0; i < totalCourses; i++)
+        {
+            courses[i].getData();
+        }
+    }
+
+private:
+    string departmentName;
+    static int totalDepartments;
+    int departmentID;
+    int totalFaculty;
+    Faculty faculty[MAX];
+    int totalStudents;
+    Student students[MAX];
+    int totalCourses;
+    Course courses[MAX];
+};
+
+class University
+{
+public:
+    University()
+    {
+        universityName = "Alpha";
+        universityID = 110;
+        totalDepartments = 0;
+    }
+
+    void addDepartment()
+    {
+        departments[totalDepartments].setDepartment();
+        totalDepartments++;
+    }
+
+    void addDepartmentData()
+    {
+        cout << "Enter Department ID: ";
+        int id;
+        cin >> id;
+        cin.ignore();
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            if (departments[i].getDepartmentID() == id)
+            {
+                departments[i].setData();
+                break;
+            }
+        }
+    }
+
+    void displayDepartments()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].getData();
+        }
+    }
+
+    void displayStudents()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].displayStudents();
+        }
+    }
+
+    void displayFaculty()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].displayFaculty();
+        }
+    }
+
+    void displayCourses()
+    {
+        for (int i = 0; i < totalDepartments; i++)
+        {
+            departments[i].displayCourses();
+        }
+    }
+
+private:
+    string universityName;
+    int universityID;
+    int totalDepartments;
+    Department departments[MAX];
+};
+
 int Student::totalStudents = 0;
 int Faculty::totalFaculty = 0;
 int Course::totalCourses = 0;
@@ -675,11 +690,9 @@ int main()
     while (true)
     {
         cout << "1. Add Department" << endl;
-        cout << "2. Display Departments" << endl;
-        cout << "3. Display Students" << endl;
-        cout << "4. Display Faculty" << endl;
-        cout << "5. Display Courses" << endl;
-        cout << "6. Exit" << endl;
+        cout << "2. Add Department Data" << endl; // Add Faculty, Student, Course
+        cout << "3. Display Information" << endl;
+        cout << "4. Exit" << endl;
         cout << "Enter your choice: ";
         int choice;
         cin >> choice;
@@ -690,21 +703,36 @@ int main()
         }
         else if (choice == 2)
         {
-            Alpha.displayDepartments();
+            Alpha.addDepartmentData();
         }
         else if (choice == 3)
         {
-            Alpha.displayStudents();
+            cout << "1. Display Departments" << endl;
+            cout << "2. Display Students" << endl;
+            cout << "3. Display Faculty" << endl;
+            cout << "4. Display Courses" << endl;
+            cout << "Enter your choice: ";
+            int ch;
+            cin >> ch;
+            cin.ignore();
+            if (ch == 1)
+            {
+                Alpha.displayDepartments();
+            }
+            else if (ch == 2)
+            {
+                Alpha.displayStudents();
+            }
+            else if (ch == 3)
+            {
+                Alpha.displayFaculty();
+            }
+            else if (ch == 4)
+            {
+                Alpha.displayCourses();
+            }
         }
         else if (choice == 4)
-        {
-            Alpha.displayFaculty();
-        }
-        else if (choice == 5)
-        {
-            Alpha.displayCourses();
-        }
-        else if (choice == 6)
         {
             break;
         }
