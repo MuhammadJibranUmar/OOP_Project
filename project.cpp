@@ -3,18 +3,20 @@
 #include <ctime>
 using namespace std;
 
-int MAX = 100;
-//comment
+const int MAX = 100;
 
-class University{
-    public:
-
-    private:
-        string universityName;
-        int universityID;
-        int totalDepartments;
-        Department departments[MAX];
-}
+class Department;
+class Course;
+class Result;
+class University
+{
+public:
+private:
+    string universityName;
+    int universityID;
+    int totalDepartments;
+    Department departments[MAX];
+};
 class Date
 {
 public:
@@ -74,7 +76,7 @@ private:
     int year;
 };
 
-//person class
+// person class
 class Person
 {
 public:
@@ -87,7 +89,8 @@ public:
         email = "";
     }
 
-    void setPerson(){
+    void setPerson()
+    {
         cout << "Enter first name: ";
         getline(cin, firstName);
         cout << "Enter last name: ";
@@ -129,19 +132,22 @@ protected:
     string email;
 };
 
-class Student : public Person, public Course
+class Student : public Person
 {
 public:
-Student(){
-    gpa = 0.0;
-}
-void setdata(){
-    Person::setPerson();
-    studentID++;
-    registrationNo++;
+    Student()
+    {
+        gpa = 0.0;
     }
+    void setData()
+    {
+        Person::setPerson();
+        totalStudents++;
+    }
+
 private:
-    static int studentID;
+    int studentID;
+    static int totalStudents;
     int registrationNo;
     double gpa;
 };
@@ -150,7 +156,8 @@ class Faculty : public Person
 {
 public:
 private:
-int facultyID;
+    int facultyID;
+    static int totalFaculty;
 };
 
 class Course
@@ -164,65 +171,68 @@ public:
         grade = "";
     }
 
-    void setData(){
+    void setData()
+    {
         cout << "Enter Course Title: ";
         getline(cin, courseTitle);
         cout << "Enter Credit Hours: ";
         cin >> creditHours;
         cin.ignore();
     }
-    
-    void getData(){
+
+    void getData()
+    {
         cout << "Course Title: " << courseTitle << endl;
         cout << "Course ID: " << courseID << endl;
         cout << "Credit Hours: " << creditHours << endl;
         cout << "Total Marks: " << totalMarks << endl;
         cout << "Grade: " << grade << endl;
     }
+
 private:
     int courseID;
+    static int totalCourses;
     string courseTitle;
-    int crediHours;
+    int creditHours;
     int totalMarks;
     string grade;
     Result result;
 };
 
-class Department{
-    public:
-
-    private:
-        string departmentName;
-        int departmentID;
-        int totalFaculty;
-        Faculty faculty[MAX];
-        int totalStudents;
-        Student students[MAX];
-        int totalCourses;
-        Course courses[MAX];
+class Department
+{
+public:
+private:
+    string departmentName;
+    static int totalDepartments;
+    int departmentID;
+    int totalFaculty;
+    Faculty faculty[MAX];
+    int totalStudents;
+    Student students[MAX];
+    int totalCourses;
+    Course courses[MAX];
 };
-class Result{
-    public:
-        Result(){
+class Result
+{
+public:
+    Result()
+    {
+    }
 
-        }
-    private:
-        float mids;
-        float sessionals;
-        float quiz;
-        float presentation;
-        float assignment;
-        float finals;
-}
+private:
+    float mids;
+    float sessional;
+    float quiz;
+    float presentation;
+    float assignment;
+    float finals;
+};
 
-static int studentID = 0;
-static int facultyID = 0;
-static int courseID = 0;
-static int departmentID = 0;
-
-void register(){
-
-}
+int Student::totalStudents = 0;
+int Faculty::totalFaculty = 0;
+int Course::totalCourses = 0;
+int Department::totalDepartments = 0;
 
 int main()
 {
