@@ -6,6 +6,9 @@ using namespace std;
 
 const int MAX = 100;
 
+class Course;
+class Student;
+class Faculty;
 //Date class to store date of birth
 class Date
 {
