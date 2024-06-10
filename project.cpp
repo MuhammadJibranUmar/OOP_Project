@@ -316,7 +316,7 @@ public:
 
     void setMids(float m)
     {
-        if (m > 25 || m < 0)
+        if (m >= 25 || m <= 0)
         {
             cout << "Invalid marks for mids" << endl;
             return;
@@ -331,7 +331,7 @@ public:
 
     void setQuiz(float q)
     {
-        if (q > 5 || q < 0)
+        if (q >= 5 || q <= 0)
         {
             cout << "Invalid marks for quiz" << endl;
             return;
@@ -341,7 +341,7 @@ public:
 
     void setPresentation(float p)
     {
-        if (p > 10 || p < 0)
+        if (p >= 10 || p <= 0)
         {
             cout << "Invalid marks for presentation" << endl;
             return;
@@ -351,7 +351,7 @@ public:
 
     void setAssignment(float a)
     {
-        if (a > 10 || a < 0)
+        if (a >= 10 || a <= 0)
         {
             cout << "Invalid marks for assignment" << endl;
             return;
@@ -361,7 +361,7 @@ public:
 
     void setFinals(float f)
     {
-        if (f > 50 || f < 0)
+        if (f >= 50 || f <= 0)
         {
             cout << "Invalid marks for finals" << endl;
             return;
