@@ -9,294 +9,6 @@ const int MAX = 100;
 class Course;
 class Student;
 class Faculty;
-//Date class to store date of birth
-class Date
-{
-public:
-    Date()
-    {
-        month = 0;
-        day = 0;
-        year = 0;
-    }
-
-    Date(int m, int d, int y)
-    {
-        month = m;
-        day = d;
-        year = y;
-    }
-
-    void setDOB(int m, int d, int y)
-    {
-        month = m;
-        day = d;
-        year = y;
-    }
-
-    void printDOB()
-    {
-        cout << month << "/" << day << "/" << year << endl;
-    }
-
-//function to calculate age using ctime library
-    void calculateAge()
-    {
-        time_t now = time(0);
-        tm *ltm = localtime(&now);
-        int currentYear = 1900 + ltm->tm_year;
-        int currentMonth = 1 + ltm->tm_mon;
-        int currentDay = ltm->tm_mday;
-
-        int age = currentYear - year;
-        if (currentMonth < month)
-        {
-            age--;
-        }
-        else if (currentMonth == month)
-        {
-            if (currentDay < day)
-            {
-                age--;
-            }
-        }
-
-        cout << "Age: " << age << endl;
-    }
-
-private:
-    int month;
-    int day;
-    int year;
-};
-
-// person class to store common attributes of student and faculty
-class Person
-{
-public:
-    Person()
-    {
-        firstName = "";
-        lastName = "";
-        address = "";
-        phone = "";
-        email = "";
-    }
-
-    void setPerson()
-    {
-        cout << "Enter first name: ";
-        getline(cin, firstName);
-        cout << "Enter last name: ";
-        getline(cin, lastName);
-        cout << "Enter DOB (mm/dd/yyyy): ";
-        int m, d, y;
-        cin >> m >> d >> y;
-        dob.setDOB(m, d, y);
-        cin.ignore();
-        cout << "Enter address: ";
-        getline(cin, address);
-        cout << "Enter phone: ";
-        getline(cin, phone);
-        cout << "Enter email: ";
-        getline(cin, email);
-    }
-
-    void printPerson()
-    {
-        cout << "------------------------------------" << endl; 
-        cout << "Name: " << firstName << " " << lastName << endl;
-        cout << "DOB: ";
-        dob.printDOB();
-        cout << "Address: " << address << endl;
-        cout << "Phone: " << phone << endl;
-        cout << "Email: " << email << endl;
-    }
-
-    void calculateAge()
-    {
-        dob.calculateAge();
-    }
-
-protected:
-    string firstName;
-    string lastName;
-    Date dob;
-    string address;
-    string phone;
-    string email;
-};
-
-// student class to store student information
-class Student : public Person
-{
-public:
-    Student()
-    {
-        gpa = 0.0;
-        registrationNo = 0;
-    }
-    void setData()
-    {
-        Person::setPerson();
-        registrationNo = ++totalStudents;
-    }
-
-    void printPerson()
-    {
-        cout << "Student ID: " << studentID << endl;
-        Person::printPerson();
-        cout << "Registration No: " << registrationNo << endl;
-        cout << "GPA: " << gpa << endl;
-    }
-
-    void registerCourse(Course c)
-    {
-        if (totalCourses == MAX)
-        {
-            cout << "You have already registered maximum courses" << endl;
-            return;
-        }
-        registeredCourses[totalCourses] = &c;
-        totalCourses++;
-
-        c.registerStudent(*this);
-    }
-
-    void displayCourses()
-    {
-        for (int i = 0; i < totalCourses; i++)
-        {
-            registeredCourses[i]->getData();
-        }
-    }
-
-    void displayResult()
-    {
-        for (int i = 0; i < totalCourses; i++)
-        {
-            registeredCourses[i]->displayResult();
-        }
-    }
-
-    void calculateGPA()
-    {
-        double totalCredits = 0;
-        double totalGradePoints = 0;
-        for (int i = 0; i < totalCourses; i++)
-        {
-            totalCredits += registeredCourses[i]->creditHours;
-            totalGradePoints += registeredCourses[i]->result.gradePoints * registeredCourses[i]->creditHours;
-        }
-        gpa = totalGradePoints / totalCredits;
-    }
-
-private:
-    int studentID;
-    static int totalStudents;
-    int registrationNo;
-    double gpa;
-    int totalCourses;
-    Course* registeredCourses[MAX];
-};
-
-// faculty class to store faculty information
-class Faculty : public Person
-{
-public:
-    Faculty()
-    {
-        facultyID = 0;
-        registrationNo = 0;
-    }
-
-    void setData()
-    {
-        Person::setPerson();
-        registrationNo = ++totalFaculty;
-    }
-
-    void printPerson()
-    {
-        cout << "Faculty ID: " << facultyID << endl;
-        Person::printPerson();
-    }
-
-    void assignCourse(Course c)
-    {
-        if (totalCourses == MAX)
-        {
-            cout << "You have already assigned maximum courses" << endl;
-            return;
-        }
-        courses[totalCourses] = &c;
-        totalCourses++;
-
-        c.registerFaculty(*this);
-    }
-
-    void displayCourses()
-    {
-        for (int i = 0; i < totalCourses; i++)
-        {
-            courses[i]->getData();
-        }
-    }
-
-    void displayStudents()
-    {
-        for (int i = 0; i < totalCourses; i++)
-        {
-            courses[i]->displayStudents();
-        }
-    }
-
-    void enterMarks(){
-        while(true){
-            cout << "1. Enter Marks" << endl;
-            cout << "2. Exit" << endl;
-            cout << "Enter your choice: ";
-            int choice;
-            cin >> choice;
-            cin.ignore();
-            if(choice == 1){
-                cout << "Enter Course ID: ";
-                int id;
-                cin >> id;
-                cin.ignore();
-                for(int i = 0; i < totalCourses; i++){
-                    if(courses[i]->courseID == id){
-                        courses[i]->setMarks();
-                        break;
-                    }
-                }
-            }
-            else if(choice == 2){
-                break;
-            }
-            else{
-                cout << "Invalid choice" << endl;
-            }
-        }
-    }
-
-    void facultyMenu()
-    {
-        while (true)
-        {
-            cout << "1. Display Courses" << endl;
-            cout << "2. Display Students" << endl;
-            cout << "3. Enter Marks" << endl;
-            
-        }
-    }
-private:
-    int facultyID;
-    int registrationNo;
-    static int totalFaculty;
-    Course* courses[MAX];
-    int totalCourses;
-};
 
 // result class to store student result
 class Result
@@ -550,31 +262,6 @@ public:
         cout << "Grade: " << result.getGrade() << endl;
     }
 
-    void registerStudent(Student s)
-    {
-        if (totalStudents == MAX)
-        {
-            cout << "Course is already full" << endl;
-            return;
-        }
-        students[totalStudents] = &s;
-        totalStudents++;
-    }
-    
-    void displayStudents()
-    {
-        for (int i = 0; i < totalStudents; i++)
-        {
-            students[i]->printPerson();
-        }
-    }
-
-    void registerFaculty(Faculty f)
-    {
-        faculty = &f;
-        registered = true;
-    }
-
     Result result;
     int creditHours;
     int courseID;
@@ -585,8 +272,245 @@ private:
     string courseTitle;
     int totalMarks;
     int totalStudents;
-    Student* students[MAX];
-    Faculty* faculty;
+    int registeredStudents[MAX];
+};
+
+//Date class to store date of birth
+class Date
+{
+public:
+    Date()
+    {
+        month = 0;
+        day = 0;
+        year = 0;
+    }
+
+    Date(int m, int d, int y)
+    {
+        month = m;
+        day = d;
+        year = y;
+    }
+
+    void setDOB(int m, int d, int y)
+    {
+        month = m;
+        day = d;
+        year = y;
+    }
+
+    void printDOB()
+    {
+        cout << month << "/" << day << "/" << year << endl;
+    }
+
+//function to calculate age using ctime library
+    void calculateAge()
+    {
+        time_t now = time(0);
+        tm *ltm = localtime(&now);
+        int currentYear = 1900 + ltm->tm_year;
+        int currentMonth = 1 + ltm->tm_mon;
+        int currentDay = ltm->tm_mday;
+
+        int age = currentYear - year;
+        if (currentMonth < month)
+        {
+            age--;
+        }
+        else if (currentMonth == month)
+        {
+            if (currentDay < day)
+            {
+                age--;
+            }
+        }
+
+        cout << "Age: " << age << endl;
+    }
+
+private:
+    int month;
+    int day;
+    int year;
+};
+
+// person class to store common attributes of student and faculty
+class Person
+{
+public:
+    Person()
+    {
+        firstName = "";
+        lastName = "";
+        address = "";
+        phone = "";
+        email = "";
+    }
+
+    void setPerson()
+    {
+        cout << "Enter first name: ";
+        getline(cin, firstName);
+        cout << "Enter last name: ";
+        getline(cin, lastName);
+        cout << "Enter DOB (mm/dd/yyyy): ";
+        int m, d, y;
+        cin >> m >> d >> y;
+        dob.setDOB(m, d, y);
+        cin.ignore();
+        cout << "Enter address: ";
+        getline(cin, address);
+        cout << "Enter phone: ";
+        getline(cin, phone);
+        cout << "Enter email: ";
+        getline(cin, email);
+    }
+
+    void printPerson()
+    {
+        cout << "------------------------------------" << endl; 
+        cout << "Name: " << firstName << " " << lastName << endl;
+        cout << "DOB: ";
+        dob.printDOB();
+        cout << "Address: " << address << endl;
+        cout << "Phone: " << phone << endl;
+        cout << "Email: " << email << endl;
+    }
+
+    void calculateAge()
+    {
+        dob.calculateAge();
+    }
+
+protected:
+    string firstName;
+    string lastName;
+    Date dob;
+    string address;
+    string phone;
+    string email;
+};
+
+// student class to store student information
+class Student : public Person
+{
+public:
+    Student()
+    {
+        gpa = 0.0;
+        registrationNo = 0;
+    }
+    void setData()
+    {
+        Person::setPerson();
+        registrationNo = ++totalStudents;
+    }
+
+    void printPerson()
+    {
+        cout << "Student ID: " << studentID << endl;
+        Person::printPerson();
+        cout << "Registration No: " << registrationNo << endl;
+        cout << "GPA: " << gpa << endl;
+    }
+
+    void registerCourse(Course c)
+    {
+        if (totalCourses == MAX)
+        {
+            cout << "You have already registered maximum courses" << endl;
+            return;
+        }
+        registeredCourses[totalCourses] = &c;
+        totalCourses++;
+    }
+
+    void displayCourses()
+    {
+        for (int i = 0; i < totalCourses; i++)
+        {
+            registeredCourses[i]->getData();
+        }
+    }
+
+    void displayResult()
+    {
+        for (int i = 0; i < totalCourses; i++)
+        {
+            registeredCourses[i]->displayResult();
+        }
+    }
+
+    void calculateGPA()
+    {
+        double totalCredits = 0;
+        double totalGradePoints = 0;
+        for (int i = 0; i < totalCourses; i++)
+        {
+            totalCredits += registeredCourses[i]->creditHours;
+            totalGradePoints += registeredCourses[i]->result.gradePoints * registeredCourses[i]->creditHours;
+        }
+        gpa = totalGradePoints / totalCredits;
+    }
+
+private:
+    int studentID;
+    static int totalStudents;
+    int registrationNo;
+    double gpa;
+    int totalCourses;
+    Course* registeredCourses[MAX];
+};
+
+// faculty class to store faculty information
+class Faculty : public Person
+{
+public:
+    Faculty()
+    {
+        facultyID = 0;
+        registrationNo = 0;
+    }
+
+    void setData()
+    {
+        Person::setPerson();
+        registrationNo = ++totalFaculty;
+    }
+
+    void printPerson()
+    {
+        cout << "Faculty ID: " << facultyID << endl;
+        Person::printPerson();
+    }
+
+    void assignCourse(Course c)
+    {
+        if (totalCourses == MAX)
+        {
+            cout << "You have already assigned maximum courses" << endl;
+            return;
+        }
+        courses[totalCourses] = &c;
+        totalCourses++;
+    }
+
+    void displayCourses()
+    {
+        for (int i = 0; i < totalCourses; i++)
+        {
+            courses[i]->getData();
+        }
+    }
+
+private:
+    int facultyID;
+    int registrationNo;
+    static int totalFaculty;
+    Course* courses[MAX];
+    int totalCourses;
 };
 
 // department class to store department information
