@@ -751,36 +751,8 @@ void registerUser(){
     cout << "User registered successfully" << endl;
 }
 
-// main function
-int main()
-{
-    cout << "Welcome to University Information System" << endl;
-    // login and register
-    while(true){
-        cout << "1. Login" << endl;
-        cout << "2. Register" << endl;
-        cout << "3. Exit" << endl;
-        cout << "Enter your choice: ";
-        int choice;
-        bool flag;
-        cin >> choice;
-        cin.ignore();
-        if(choice == 1){
-            flag = login();
-        }
-        else if(choice == 2){
-            registerUser();
-        }
-        else if(choice == 3){
-            break;
-        }
-        else{
-            cout << "Invalid choice" << endl;
-        }
-        if(flag){
-            break;
-        }
-    }
+// university object and options
+void universityOptions(){
 
 // object of University class
     University Alpha;
@@ -840,6 +812,40 @@ int main()
         }
     }
 
+}
+
+// main function
+int main()
+{
+    cout << "Welcome to University Information System" << endl;
+    // login and register
+    while(true){
+        cout << "1. Login" << endl;
+        cout << "2. Register" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        int choice;
+        bool flag;
+        cin >> choice;
+        cin.ignore();
+        if(choice == 1){
+            flag = login();
+        }
+        else if(choice == 2){
+            registerUser();
+        }
+        else if(choice == 3){
+            break;
+        }
+        else{
+            cout << "Invalid choice" << endl;
+        }
+        if(flag){
+            break;
+        }
+    }
+
+    universityOptions();
 
     return 0;
 }
