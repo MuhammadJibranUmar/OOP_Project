@@ -6,9 +6,6 @@ using namespace std;
 
 const int MAX = 100;
 
-class Course;
-class Student;
-class Faculty;
 
 // result class to store student result
 class Result
@@ -83,6 +80,7 @@ public:
 
     void calculateTotalMarks()
     {
+        setSessional();
         totalMarks = mids + sessional + finals;
     }
 
@@ -173,11 +171,15 @@ public:
 
     void setData()
     {
+        cin.ignore();
         cout << "Enter Course Title: ";
         getline(cin, courseTitle);
         cout << "Enter Credit Hours: ";
         cin >> creditHours;
         cin.ignore();
+
+        ofstream file("courses.txt", ios::app);
+        file << courseID << " " << courseTitle << " " << creditHours << endl;
     }
 
     void getData()
@@ -265,14 +267,14 @@ public:
     Result result;
     int creditHours;
     int courseID;
+    string courseTitle;
+    int registeredStudents[MAX];
+    int totalStudents;
 
 private:
     static int totalCourses;
     bool registered;
-    string courseTitle;
     int totalMarks;
-    int totalStudents;
-    int registeredStudents[MAX];
 };
 
 //Date class to store date of birth
@@ -406,6 +408,10 @@ public:
     {
         Person::setPerson();
         registrationNo = ++totalStudents;
+
+        ofstream file("students.txt", ios::app);
+        file << registrationNo << " " << firstName << " " << lastName << " " << address << " " << phone << " " << email << endl;
+
     }
 
     void printPerson()
@@ -425,21 +431,72 @@ public:
         }
         registeredCourses[totalCourses] = &c;
         totalCourses++;
+        c.registeredStudents[c.totalStudents++] = studentID;
     }
 
     void displayCourses()
     {
-        for (int i = 0; i < totalCourses; i++)
+    int ID, i;
+        do{
+            cout << "Choose Course: ";
+        for (i = 0; i < totalCourses; i++)
         {
-            registeredCourses[i]->getData();
+            cout << "[" << i << "]. " << registeredCourses[i]->courseTitle << endl;
         }
+        int choice;
+        cin >> choice;
+        cin.ignore();
+        if(choice < 0 || choice >= totalCourses){
+            cout << "Invalid choice" << endl;
+            continue;
+        }
+        ID = registeredCourses[i]->courseID;
+        }while(true);
+
+        do
+        {
+            cout << "Choose Option: ";
+            cout << "[1]. Display Course Info";
+            cout << "[2]. Display result";
+            cout << "[3]. Display registered Students";
+
+            int option;
+            cin >> option; 
+            cin.ignore();
+
+            if(option < 1 || option > 3){
+                cout << "Invalid\n";
+                continue;
+            }
+
+            if(option == 1){
+                displayCourseInfo(ID);
+            }
+            else if(option == 2){
+                displayResult(ID);
+            }
+            else if(option == 3){
+                displayRegisteredStudents(ID);
+            }
+
+        } while (true);
+        
+
     }
 
-    void displayResult()
+    void displayResult(int index)
     {
-        for (int i = 0; i < totalCourses; i++)
-        {
-            registeredCourses[i]->displayResult();
+        registeredCourses[index]->displayResult();
+    }
+
+    void displayCourseInfo(int index){
+        registeredCourses[index]->getData();
+    }
+    
+    void displayRegisteredStudents(int index){
+        int students = registeredCourses[index]->totalStudents;
+        for(int i = 0; i < students; i++){
+            cout << registeredCourses[index]->registeredStudents[i] << endl;
         }
     }
 
@@ -478,6 +535,9 @@ public:
     {
         Person::setPerson();
         registrationNo = ++totalFaculty;
+
+        ofstream file("faculty.txt", ios::app);
+        file << registrationNo << " " << firstName << " " << lastName << " " << address << " " << phone << " " << email << endl;
     }
 
     void printPerson()
@@ -531,6 +591,9 @@ public:
         getline(cin, departmentName);
         departmentID = totalDepartments + 1;
         totalDepartments++;
+
+        ofstream file("departments.txt", ios::app);
+        file << departmentID << " " << departmentName << endl;
     }
 
     void setData(){
@@ -814,6 +877,21 @@ void universityOptions(){
 
 }
 
+void studentOptions(){
+    Course c1, c2, c3;
+    c1.setData();
+    c2.setData();
+    c3.setData();
+
+
+    Student s;
+    s.setData();
+    s.registerCourse(c1);
+    s.registerCourse(c2);
+    s.registerCourse(c3);
+    s.displayCourses();
+}
+
 // main function
 int main()
 {
@@ -845,7 +923,7 @@ int main()
         }
     }
 
-    universityOptions();
+    studentOptions();
 
     return 0;
 }
