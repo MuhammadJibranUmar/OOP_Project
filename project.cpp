@@ -165,7 +165,7 @@ public:
         courseTitle = "";
         creditHours = 0;
         totalMarks = 100;
-        courseID = totalCourses + 1;
+        courseID = ++totalCourses;
         registered = false;
     }
 
